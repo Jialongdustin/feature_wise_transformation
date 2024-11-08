@@ -184,7 +184,7 @@ class FeatureWiseTransformation2d_fw(nn.BatchNorm2d):
     if self.feature_augment: # initialize {gamma, beta} with {0.3, 0.5}
       self.gamma = torch.nn.Parameter(torch.ones(1, num_features, 1, 1)*0.3)
       self.beta  = torch.nn.Parameter(torch.ones(1, num_features, 1, 1)*0.5)
-    self.reset_parameters()
+    self.reset_running_stats()
 
   def reset_running_stats(self):
     if self.track_running_stats:

@@ -25,9 +25,9 @@ def train(base_loader, val_loader, model, start_epoch, stop_epoch, params):
   total_it = 0
 
   # start
-  for epoch in range(start_epoch,stop_epoch):
+  for epoch in range(start_epoch, stop_epoch):
     model.train()
-    total_it = model.train_loop(epoch, base_loader,  optimizer, total_it) #model are called by reference, no need to return
+    total_it = model.train_loop(epoch, base_loader, optimizer, total_it) #model are called by reference, no need to return
     model.eval()
 
     acc = model.test_loop( val_loader)
@@ -109,7 +109,7 @@ if __name__=='__main__':
     val_loader              = val_datamgr.get_data_loader( val_file, aug = False)
 
     if params.method == 'protonet':
-      model           = ProtoNet( model_dict[params.model], tf_path=params.tf_dir, **train_few_shot_params)
+      model           = ProtoNet( model_dict[params.model], tf_path=params.tf_dir, **train_few_shot_params)  # Resnet10
     elif params.method == 'gnnnet':
       model           = GnnNet( model_dict[params.model], tf_path=params.tf_dir, **train_few_shot_params)
     elif params.method == 'matchingnet':
@@ -134,7 +134,7 @@ if __name__=='__main__':
     resume_file = get_resume_file('%s/checkpoints/%s'%(params.save_dir, params.resume), params.resume_epoch)
     if resume_file is not None:
       tmp = torch.load(resume_file)
-      start_epoch = tmp['epoch']+1
+      start_epoch = tmp['epoch'] + 1
       model.load_state_dict(tmp['state'])
       print('  resume the training with at {} epoch (model file {})'.format(start_epoch, params.resume))
   elif 'baseline' not in params.method:
@@ -145,4 +145,4 @@ if __name__=='__main__':
 
   # training
   print('\n--- start the training ---')
-  model = train(base_loader, val_loader,  model, start_epoch, stop_epoch, params)
+  model = train(base_loader, val_loader, model, start_epoch, stop_epoch, params)

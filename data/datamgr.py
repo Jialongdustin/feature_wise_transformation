@@ -65,7 +65,7 @@ class SetDataManager(DataManager):
     super(SetDataManager, self).__init__()
     self.image_size = image_size
     self.n_way = n_way
-    self.batch_size = n_support + n_query
+    self.batch_size = n_support + n_query  # 5 + 16
     self.n_eposide = n_eposide
 
     self.trans_loader = TransformLoader(image_size)

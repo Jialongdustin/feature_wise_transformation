@@ -83,9 +83,9 @@ class MultiSetDataset:
       for cl in cl_list:
         sub_dataset = SubDataset(sub_meta[cl], cl, transform = transform, min_size=batch_size)
         self.sub_dataloader.append( torch.utils.data.DataLoader(sub_dataset, **sub_data_loader_params) )
-      self.n_classes.append(len(cl_list))
+      self.n_classes.append(len(cl_list))  # 不同域的类别长度列表
 
-  def __getitem__(self,i):
+  def __getitem__(self, i):
     return next(iter(self.sub_dataloader[i]))
 
   def __len__(self):
@@ -105,7 +105,7 @@ class SubDataset:
       idxs = [i % len(self.sub_meta) for i in range(min_size)]
       self.sub_meta = np.array(self.sub_meta)[idxs].tolist()
 
-  def __getitem__(self,i):
+  def __getitem__(self, i):
     image_path = os.path.join( self.sub_meta[i])
     img = Image.open(image_path).convert('RGB')
     img = self.transform(img)
@@ -141,7 +141,7 @@ class MultiEpisodicBatchSampler(object):
     return self.n_episodes
 
   def __iter__(self):
-    domain_list = [i%self.n_domains for i in range(self.n_episodes)]
+    domain_list = [i % self.n_domains for i in range(self.n_episodes)]
     random.shuffle(domain_list)
     for i in range(self.n_episodes):
       domain_idx = domain_list[i]

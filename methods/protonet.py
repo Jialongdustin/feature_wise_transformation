@@ -14,8 +14,8 @@ class ProtoNet(MetaTemplate):
   def reset_modules(self):
     return
 
-  def set_forward(self,x,is_feature=False):
-    z_support, z_query  = self.parse_feature(x,is_feature)
+  def set_forward(self, x, is_feature=False):
+    z_support, z_query  = self.parse_feature(x, is_feature)
     z_support   = z_support.contiguous()
     z_proto     = z_support.view(self.n_way, self.n_support, -1 ).mean(1) #the shape of z is [n_data, n_dim]
     z_query     = z_query.contiguous().view(self.n_way* self.n_query, -1 )
@@ -24,8 +24,8 @@ class ProtoNet(MetaTemplate):
     scores = -dists
     return scores
 
-  def get_distance(self,x,is_feature = False):
-    z_support, z_query  = self.parse_feature(x,is_feature)
+  def get_distance(self, x, is_feature = False):
+    z_support, z_query  = self.parse_feature(x, is_feature)
     z_support   = z_support.contiguous()
     z_proto     = z_support.view(self.n_way, self.n_support, -1 ).mean(1) #the shape of z is [n_data, n_dim]
     z_query     = z_query.contiguous().view(self.n_way* self.n_query, -1 )

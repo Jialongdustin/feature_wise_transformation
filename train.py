@@ -87,7 +87,7 @@ if __name__=='__main__':
   train_few_shot_params   = dict(n_way = params.train_n_way, n_support = params.n_shot)
   base_datamgr            = SetDataManager(image_size, n_query = n_query,  **train_few_shot_params)
   aux_datamgr             = SimpleDataManager(image_size, batch_size=16)
-  aux_iter              = iter(cycle(aux_datamgr.get_data_loader(os.path.join(params.data_dir, 'miniImagenet', 'base.json'), aug=params.train_aug)))
+  aux_iter                = iter(cycle(aux_datamgr.get_data_loader(os.path.join(params.data_dir, 'miniImagenet', 'base.json'), aug=params.train_aug)))
   test_few_shot_params    = dict(n_way = params.test_n_way, n_support = params.n_shot)
   val_datamgr             = SetDataManager(image_size, n_query = n_query, **test_few_shot_params)
   val_loader              = val_datamgr.get_data_loader( val_file, aug = False)

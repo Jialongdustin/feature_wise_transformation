@@ -15,7 +15,7 @@ class MetaTemplate(nn.Module):
     self.tf_writer = SummaryWriter(log_dir=tf_path) if tf_path is not None else None
 
   @abstractmethod
-  def set_forward(self,x,is_feature):
+  def set_forward(self, x, is_feature):
     pass
 
   @abstractmethod
@@ -26,7 +26,7 @@ class MetaTemplate(nn.Module):
     out  = self.feature.forward(x)
     return out
 
-  def parse_feature(self,x,is_feature):
+  def parse_feature(self, x, is_feature):
     x = x.cuda()
     if is_feature:
       z_all = x
@@ -50,7 +50,7 @@ class MetaTemplate(nn.Module):
 
   def train_loop(self, epoch, train_loader, optimizer, total_it):
     print_freq = len(train_loader) // 10
-    avg_loss=0
+    avg_loss = 0
     for i, (x,_ ) in enumerate(train_loader):
       self.n_query = x.size(1) - self.n_support
       if self.change_way:
@@ -59,7 +59,7 @@ class MetaTemplate(nn.Module):
       _, loss = self.set_forward_loss(x)
       loss.backward()
       optimizer.step()
-      avg_loss = avg_loss+loss.item()
+      avg_loss = avg_loss + loss.item()
 
       if (i + 1) % print_freq==0:
         print('Epoch {:d} | Batch {:d}/{:d} | Loss {:f}'.format(epoch, i + 1, len(train_loader), avg_loss/float(i+1)))
